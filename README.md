@@ -34,4 +34,8 @@ $ docker rm data-africa
 
 ### Production
 
+docker build -t registry.heroku.com/frozen-basin-50948/web .
 
+docker push registry.heroku.com/frozen-basin-50948/web
+
+heroku container:release -a frozen-basin-50948 web
