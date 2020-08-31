@@ -1,8 +1,8 @@
-FROM python:3.7-alpine AS build-python
+FROM python:3.8.5-alpine AS build-python
 COPY ./requirements.txt /
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
 
-FROM python:3.7-alpine
+FROM python:3.8.5-alpine
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBUG 0
