@@ -27,7 +27,6 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "frozen-basin-50948.herokuapp.com"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -129,4 +128,3 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
