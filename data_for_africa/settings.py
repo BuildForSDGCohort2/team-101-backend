@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "frozen-basin-50948.herokuapp.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "sdgteam101.herokuapp.com"]
 
 # Application definition
 
