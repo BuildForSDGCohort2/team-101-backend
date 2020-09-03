@@ -16,7 +16,7 @@ import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+AUTH_USER_MODEL = 'accounts.User'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -25,18 +25,28 @@ SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "frozen-basin-50948.herokuapp.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "sdgteam101.herokuapp.com"]
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # 3rd party
     'rest_framework',
+    'django_countries',
+
+    # local
+    'accounts',
+    'services',
 ]
 
 MIDDLEWARE = [
@@ -112,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Lagos'
 
 USE_I18N = True
 
@@ -128,3 +138,68 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+SITE_ID = 1
+
+JAZZMIN_SETTINGS = {
+    'site_title': 'AfriData Admin',
+    'site_header': 'AfriData',
+    'site_logo': None,
+    'welcome_sign': 'Welcome to AfriData',
+    'copyright': 'ODA',
+    'search_model' : 'auth.User',
+    'user_avatar': None,
+    'topmenu_links': [
+        {'name': 'Home',  'url': 'admin:index', 'permissions': ['auth.view_user']},
+        {
+            'name': 'Github', 
+            'url': 'https://github.com/BuildForSDGCohort2/team-101-backend/', 
+            'new_window': True
+        },
+        {'model': 'auth.User'},
+        {'app': 'accounts'},
+    ],
+    'usermenu_links': [
+        {
+            'name': 'Github', 
+            'url': 'https://github.com/damephena/', 
+            'new_window': True
+        },
+        {'model': 'auth.User'}
+    ],
+    'show_sidebar': True,
+    'navigation_expanded': True,
+    'hide_apps': [],
+    'hide_models': [],
+    'order_with_respect_to': ['accounts', ],
+    'icons': {
+        'auth': 'fas fa-users-cog',
+        'auth.user': 'fas fa-user',
+        'auth.Group': 'fas fa-users',
+    },
+    'default_icon_parents': 'fas fa-chevron-circle-right',
+    'default_icon_children': 'fas fa-circle',
+    "custom_css": None,
+    "custom_js": None,
+    "show_ui_builder": False,
+    "changeform_format": "collapsible",
+    "changeform_format_overrides": {
+        "auth.user": "collapsible", 
+        "auth.group": "vertical_tabs",
+    },
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", default="noreply@afridata.netlify.app")
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_REGION_NAME = 'eu-west-2'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
