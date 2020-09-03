@@ -1,0 +1,76 @@
+from django.db import models
+from django.utils.text import slugify
+
+from data_for_africa.settings import AUTH_USER_MODEL
+
+
+class Category(models.Model):
+    '''Category where all Datasets must belong.'''
+    name = models.CharField(max_length=60)
+
+    def __str__(self):
+        return self.name
+
+
+class Tag(models.Model):
+    '''Possible tags to Dataset.'''
+    name = models.CharField(max_length=60)
+
+    def __str__(self):
+        return self.name
+
+
+class Item(models.Model):
+    '''Datasets model'''
+    name = models.CharField(max_length=80, default='test')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, blank=True)
+    slug = models.SlugField(blank=True, unique=True)
+    size = models.FloatField(blank=True)
+    file_type = models.CharField(max_length=15, blank=True)
+    description = models.TextField(blank=True, null=True)
+    resource = models.FileField(upload_to='resources/')
+    added_by = models.ForeignKey(AUTH_USER_MODEL, related_name='added_by', on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(AUTH_USER_MODEL, related_name='updated_by', on_delete=models.CASCADE, blank=True, null=True)
+    is_reserved = models.BooleanField(default=False, blank=True)
+    is_active = models.BooleanField(default=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{} : {}'.format(self.name, self.category.name)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Item, self).save(*args, **kwargs)
+
+
+class UserItemRequest(models.Model):
+    '''Anonymous user requests for a dataset NOT currently found on the site.'''
+    item_name = models.CharField(max_length=60)
+    item_description = models.TextField()
+    requester_email = models.EmailField()
+    requester_name = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{} item: {}'.format(self.requester_email, self.item_name)
+
+
+class ReservedItemRequest(models.Model):
+    '''Individual or organization requests reserved dataset model.'''
+    item = models.ForeignKey('Item', on_delete=models.CASCADE)
+    organization_name = models.CharField(max_length=80)
+    organization_email = models.EmailField()
+    rep_name = models.CharField(max_length=50)
+    reason = models.TextField(help_text='What will you use this dataset for?')
+    is_approved = models.BooleanField(default=False, blank=True)
+    is_pending = models.BooleanField(default=True, blank=True)
+    is_rejected = models.BooleanField(default=False, blank=True)
+    maintainer = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'item: {}'.format(self.item.name)
