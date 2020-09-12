@@ -2,7 +2,12 @@
 '''
 from django.test import TestCase
 
+
+
 import accounts.models as models
+
+
+
 
 
 class ModelsTestCase(TestCase):
@@ -95,3 +100,5 @@ class ModelsTestCase(TestCase):
     def test_contributor_request_was_created(self):
         response = models.ContributorRequest.objects.all()
         self.assertEqual(response.count(), 1)
+
+
