@@ -18,10 +18,6 @@ class EmailConfirmationView(VerifyEmailView):
         confirmation = self.get_object()
         confirmation.confirm(self.request)
         user = confirmation.email_address.user
-        # user.is_verified = True
-        # user.save()
-        #return Response({'detail': _('Mail Successfully Verified')}, status=status.HTTP_200_OK)
-        
         if user.is_verified:
             return Response({'detail': _('Email already verified')}, status=status.HTTP_200_OK)
         else:

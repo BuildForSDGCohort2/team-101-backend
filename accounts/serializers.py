@@ -13,9 +13,7 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'town_city', 'state', 'country']
-
-   
-
+    
     def save(self, request):
         user = User(
             username = self.validated_data['username'],
