@@ -4,3 +4,11 @@ env/
 db.sqlite3
 staticfiles/
 migrations/
+
+
+
+
+**/staticfiles/
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
