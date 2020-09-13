@@ -26,7 +26,6 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
             country = self.validated_data['country']
         )
         password2 = self.validated_data['password2']
-        
         user.set_password(password2)
         user.save()
         return user
