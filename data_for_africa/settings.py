@@ -23,8 +23,8 @@ AUTH_USER_MODEL = 'accounts.User'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
-# DEBUG = int(os.environ.get("DEBUG", default=0))
-DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=0))
+#DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "sdgteam101.herokuapp.com"]
 

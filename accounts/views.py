@@ -1,6 +1,8 @@
+# Core Django imports
 from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 
+#Third-party app imports
 from rest_framework import status
 from rest_framework.response import Response
 from dj_rest_auth.registration.views import VerifyEmailView
@@ -16,12 +18,13 @@ class EmailConfirmationView(VerifyEmailView):
         confirmation = self.get_object()
         confirmation.confirm(self.request)
         user = confirmation.email_address.user
-        user.is_verified = True
-        return Response({'detail': _('Mail Successfully Verified')}, status=status.HTTP_200_OK)
+        # user.is_verified = True
+        # user.save()
+        #return Response({'detail': _('Mail Successfully Verified')}, status=status.HTTP_200_OK)
         
-        # if user.is_verified:
-        #     return Response({'detail': _('Email already verified')}, status=status.HTTP_200_OK)
-        # else:
-            
-        #     user.is_verified = True
-        #     return Response({'detail': _(user.username+ ' Mail Successfully Verified')}, status=status.HTTP_200_OK)
+        if user.is_verified:
+            return Response({'detail': _('Email already verified')}, status=status.HTTP_200_OK)
+        else:
+            user.is_verified = True
+            user.save()
+            return Response({'detail': _(user.username+ ' Mail Successfully Verified')}, status=status.HTTP_200_OK)
