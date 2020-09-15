@@ -2,12 +2,7 @@
 '''
 from django.test import TestCase
 
-
-
 import accounts.models as models
-
-
-
 
 
 class ModelsTestCase(TestCase):
