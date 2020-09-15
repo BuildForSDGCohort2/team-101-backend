@@ -7,9 +7,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from dj_rest_auth.registration.views import VerifyEmailView
 
-
-
 # Create your views here.
+
 class EmailConfirmationView(VerifyEmailView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
