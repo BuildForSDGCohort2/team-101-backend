@@ -95,3 +95,5 @@ class ModelsTestCase(TestCase):
     def test_contributor_request_was_created(self):
         response = models.ContributorRequest.objects.all()
         self.assertEqual(response.count(), 1)
+
+
