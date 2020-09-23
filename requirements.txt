@@ -10,6 +10,7 @@ django-jazzmin==2.2.7   # admin site extension
 django-storages==1.10   # collection of custom storage backends
 boto3==1.14.52  # Python SDK for AWS
 botocore==1.17.52   # boto dependency
+drf-yasg==1.17.1    # API automated documentor
 
 # dev and test
 black==19.3b0
