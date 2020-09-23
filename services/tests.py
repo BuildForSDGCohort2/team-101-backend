@@ -6,6 +6,7 @@ from accounts.models import User
 
 
 class ModelTestCase(TestCase):
+
     '''Models test for `services` app'''
     def setUp(self):
         file_pdf = SimpleUploadedFile('play.pdf', b'file_content', content_type='application/pdf')

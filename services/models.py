@@ -5,14 +5,19 @@ from data_for_africa.settings import AUTH_USER_MODEL
 
 
 class Category(models.Model):
+
     '''Category where all Datasets must belong.'''
     name = models.CharField(max_length=60)
+
+    class Meta:
+        verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.name
 
 
 class Tag(models.Model):
+
     '''Possible tags to Dataset.'''
     name = models.CharField(max_length=60)
 
@@ -21,6 +26,7 @@ class Tag(models.Model):
 
 
 class Item(models.Model):
+
     '''Datasets model'''
     name = models.CharField(max_length=80, default='test')
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
@@ -46,6 +52,7 @@ class Item(models.Model):
 
 
 class UserItemRequest(models.Model):
+
     '''Anonymous user requests for a dataset NOT currently found on the site.'''
     item_name = models.CharField(max_length=60)
     item_description = models.TextField()
@@ -59,6 +66,7 @@ class UserItemRequest(models.Model):
 
 
 class ReservedItemRequest(models.Model):
+
     '''Individual or organization requests reserved dataset model.'''
     item = models.ForeignKey('Item', on_delete=models.CASCADE)
     organization_name = models.CharField(max_length=80)

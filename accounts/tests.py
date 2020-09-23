@@ -1,11 +1,11 @@
-'''Tests for each model in the services app.
-'''
+'''Tests for each model in the services app.'''
 from django.test import TestCase
 
 import accounts.models as models
 
 
 class ModelsTestCase(TestCase):
+
     '''Test model creations in app.'''
     def setUp(self):
         self.contributor = models.User.objects.create_contributor(
@@ -95,5 +95,3 @@ class ModelsTestCase(TestCase):
     def test_contributor_request_was_created(self):
         response = models.ContributorRequest.objects.all()
         self.assertEqual(response.count(), 1)
-
-
