@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # 3rd party
     'rest_framework',
     'django_countries',
+    'drf_yasg',
 
     # local
     'accounts',
@@ -171,7 +172,7 @@ JAZZMIN_SETTINGS = {
     'navigation_expanded': True,
     'hide_apps': [],
     'hide_models': [],
-    'order_with_respect_to': ['accounts', ],
+    'order_with_respect_to': ['accounts', 'services' ],
     'icons': {
         'auth': 'fas fa-users-cog',
         'auth.user': 'fas fa-user',
