@@ -16,6 +16,7 @@ from accounts.managers import CustomManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+
     ''' Custom user model '''
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = models.CharField(max_length=60, unique=True)
@@ -55,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class BlacklistContributor(models.Model):
+
     '''Contributors which are blacklisted by maintainer.'''
     contributor = models.OneToOneField('User', related_name='contributor', on_delete=models.CASCADE)
     maintainer = models.ForeignKey('User', related_name='maintainer', on_delete=models.CASCADE)
@@ -67,6 +69,7 @@ class BlacklistContributor(models.Model):
 
 
 class ContributorRequest(models.Model):
+
     '''Holds the users who request to become contributors.'''
     first_name = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(unique=True)

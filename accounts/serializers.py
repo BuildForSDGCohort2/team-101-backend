@@ -4,7 +4,8 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from .models import User
 
 class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
-    """Custom serializer to handle registration"""
+
+    '''Custom serializer to handle registration'''
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
     class Meta:
@@ -31,6 +32,8 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
         return user
 
 class CustomUserDetailsSerializer(serializers.HyperlinkedModelSerializer):
+
+    '''Custom `user` detail serializer'''
     class Meta:
         model = User
         fields = [

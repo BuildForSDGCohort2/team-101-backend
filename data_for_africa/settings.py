@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'django_countries',
+    'drf_yasg',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -181,7 +182,7 @@ JAZZMIN_SETTINGS = {
     'navigation_expanded': True,
     'hide_apps': [],
     'hide_models': [],
-    'order_with_respect_to': ['accounts', ],
+    'order_with_respect_to': ['accounts', 'services' ],
     'icons': {
         'auth': 'fas fa-users-cog',
         'auth.user': 'fas fa-user',

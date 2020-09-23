@@ -1,15 +1,14 @@
-# Core Django imports
 from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 
-#Third-party app imports
 from rest_framework import status
 from rest_framework.response import Response
 from dj_rest_auth.registration.views import VerifyEmailView
 
-# Create your views here.
 
 class EmailConfirmationView(VerifyEmailView):
+
+    '''Email Confirmation view'''
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
