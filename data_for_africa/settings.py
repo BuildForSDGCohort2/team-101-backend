@@ -24,8 +24,9 @@ AUTH_USER_MODEL = 'accounts.User'
 SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
 DEBUG = int(os.environ.get("DEBUG", default=0))
+#DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "frozen-basin-50948.herokuapp.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "sdgteam101.herokuapp.com"]
 
 # Application definition
 
@@ -42,13 +43,22 @@ INSTALLED_APPS = [
 
     # 3rd party
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'django_countries',
     'drf_yasg',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 
     # local
     'accounts',
     'services',
 ]
+SITE_ID = 1
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -189,6 +199,20 @@ JAZZMIN_SETTINGS = {
         "auth.group": "vertical_tabs",
     },
 }
+REST_AUTH_SERIALIZERS = {
+    'UserDetailsSerializer': 'accounts.serializers.CustomUserDetailsSerializer'
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer'
+}
+
+
+
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", default="noreply@afridata.netlify.app")
