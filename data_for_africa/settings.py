@@ -200,7 +200,7 @@ JAZZMIN_SETTINGS = {
     },
 }
 REST_AUTH_SERIALIZERS = {
-    'UserDetailsSerializer': 'accounts.serializers.CustomUserDetailsSerializer'
+    'USER_DETAILS_SERIALIZER':'accounts.serializers.CustomUserDetailsSerializer',
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
@@ -208,11 +208,20 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASS':(
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
+JWT_AUTH_COOKIE = 'open-data-auth'
 
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
+REST_USE_JWT = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", default="noreply@afridata.netlify.app")
