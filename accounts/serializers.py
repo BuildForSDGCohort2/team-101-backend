@@ -6,7 +6,8 @@ from .models import User
 
 
 class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
-    """Custom serializer to handle registration"""
+
+    '''Custom serializer to handle registration'''
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
 
@@ -36,6 +37,7 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
 
 
 class CustomUserDetailsSerializer(UserDetailsSerializer):
+    '''Custom `user` detail serializer'''
     class Meta:
         model = User
         fields = [
