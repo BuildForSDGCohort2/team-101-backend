@@ -1,4 +1,5 @@
 '''Tests for each model in the services app.'''
+
 from django.test import TestCase
 
 import accounts.models as models
@@ -8,6 +9,8 @@ class ModelsTestCase(TestCase):
 
     '''Test model creations in app.'''
     def setUp(self):
+
+        '''Initial setup'''
         self.contributor = models.User.objects.create_contributor(
             username='testy',
             email='contributor@gmail.com',
@@ -49,18 +52,34 @@ class ModelsTestCase(TestCase):
         )
 
     def test_contributor_was_created(self):
+
+        '''Test contributor creation'''
         response = models.User.objects.get(email='contributor@gmail.com', is_maintainer=False)
         self.assertEqual(response.email, 'contributor@gmail.com')
 
     def test_maintainer_was_created(self):
-        response = models.User.objects.get(email='maintainer@gmail.com', is_maintainer=True, is_superuser=False)
+
+        '''Test maintainer creation'''
+        response = models.User.objects.get(
+            email='maintainer@gmail.com',
+            is_maintainer=True,
+            is_superuser=False
+        )
         self.assertEqual(response.email, 'maintainer@gmail.com')
 
     def test_superuser_was_created(self):
-        response = models.User.objects.get(email='superuser@gmail.com', is_maintainer=False, is_superuser=True)
+
+        '''Test admin/super user creation'''
+        response = models.User.objects.get(
+            email='superuser@gmail.com',
+            is_maintainer=False,
+            is_superuser=True
+        )
         self.assertEqual(response.email, 'superuser@gmail.com')
 
     def test_contributor_can_be_updated(self):
+
+        '''Test contributor detail edit'''
         response = models.User.objects.get(email='contributor@gmail.com', is_maintainer=False)
         response.first_name = 'Wazobia'
         response.save()
@@ -68,20 +87,34 @@ class ModelsTestCase(TestCase):
         self.assertEqual(response.first_name, 'Wazobia')
 
     def test_maintainer_can_be_updated(self):
-        response = models.User.objects.get(email='maintainer@gmail.com', is_maintainer=True, is_superuser=False)
+
+        '''Test maintainer detail edit'''
+        response = models.User.objects.get(
+            email='maintainer@gmail.com',
+            is_maintainer=True,
+            is_superuser=False
+        )
         response.last_name = 'Chicken'
         response.save()
 
         self.assertEqual(response.last_name, 'Chicken')
 
     def test_superuser_can_be_updated(self):
-        response = models.User.objects.get(email='superuser@gmail.com', is_maintainer=False, is_superuser=True)
+
+        '''Test admin/super user detail edit'''
+        response = models.User.objects.get(
+            email='superuser@gmail.com',
+            is_maintainer=False,
+            is_superuser=True
+        )
         response.state = 'Borno'
         response.save()
 
         self.assertEqual(response.state, 'Borno')
 
     def test_user_can_be_deleted(self):
+
+        '''Test `user` deletion.'''
         user = models.User.objects.get(email='maintainer@gmail.com')
         user.delete()
         all_users = models.User.objects.count()
@@ -89,9 +122,13 @@ class ModelsTestCase(TestCase):
         self.assertEqual(all_users, 2)
 
     def test_contributor_was_blacklisted(self):
+
+        '''Test `contributor` user type can be blacklisted'''
         response = models.BlacklistContributor.objects.all()
         self.assertEqual(response.count(), 1)
 
     def test_contributor_request_was_created(self):
+
+        '''Test site visitor can request to become a contributor.'''
         response = models.ContributorRequest.objects.all()
         self.assertEqual(response.count(), 1)

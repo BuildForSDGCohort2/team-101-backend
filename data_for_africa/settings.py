@@ -25,7 +25,7 @@ AUTH_USER_MODEL = 'accounts.User'
 SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
 DEBUG = int(os.environ.get("DEBUG", default=0))
-#DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost", 
@@ -170,13 +170,15 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'http://afridata.netlify.app',
     'https://afridata.netlify.app',
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'afridata.netlify.app',
 ]
+
+CSRF_COOKIE_SECURE = False  # To allow http sites
 
 SITE_ID = 1
 
@@ -250,11 +252,11 @@ REST_FRAMEWORK={
 
     'DEFAULT_AUTHENTICATION_CLASS':[
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
     ],
 
     'DEFAULT_FILTER_BACKENDS': [
-        # 'django_filters.rest_framework.DjangoFilterBackend',
+        'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
@@ -310,7 +312,7 @@ JWT_AUTH_COOKIE = 'open-data-auth'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_PRESERVE_USERNAME_CASING = False
-ACCOUNT_USERNAME_BLACKLIST = ['test', 'admin']
+ACCOUNT_USERNAME_BLACKLIST = ['test']
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = os.environ.get('ACCOUNT_EMAIL_SUBJECT_PREFIX', 'foo')
