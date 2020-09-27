@@ -31,7 +31,7 @@ class UserTestCase(APITestCase):
         })
         self.token = self.response.data['access_token']
 
-        self.client.credentials(HTTP_AUTHORIZATION='Bearer '+ self.token)
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + self.token)
 
     def test_user_login(self):
 
@@ -57,8 +57,16 @@ class UserTestCase(APITestCase):
 
         '''Test user can retrieve their details from url.'''
         data = {
-            'email':'test@example.com'
+            'email': 'test@example.com'
         }
         response = self.client.get('/api/auth/user/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['email'], data['email'])
+
+    def test_user_profile_update(self):
+
+        """Test user can make updates to their profile"""
+        updated_data = {"username": "Just-Me"}
+        response = self.client.patch('/api/auth/user/', data=updated_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['username'], "Just-Me")
