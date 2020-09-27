@@ -2,7 +2,7 @@ from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 
-from .models import User
+from .models import User, BlacklistContributor
 
 
 class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
@@ -37,6 +37,7 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
 
 
 class CustomUserDetailsSerializer(UserDetailsSerializer):
+
     '''Custom `user` detail serializer'''
     class Meta:
         model = User
@@ -45,4 +46,12 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
             'last_name', 'town_city', 'state',
             'country', 'is_maintainer'
         ]
-        read_only_fields = ('email', )
+        read_only_fields = ('email',)
+
+
+class BlacklistSerializer(serializers.ModelSerializer):
+
+    '''Serializer for blacklisting contributors.'''
+    class Meta:
+        model = BlacklistContributor
+        fields = '__all__'
