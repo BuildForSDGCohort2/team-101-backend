@@ -1,3 +1,4 @@
+'''Custom API permission file.'''
 from rest_framework import permissions
 
 
