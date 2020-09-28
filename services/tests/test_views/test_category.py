@@ -39,7 +39,7 @@ class CategoryTestCase(APITestCase):
         # make user a contributor.
         self.user = get_user_model().objects.get(email='contry@example.com')
         self.contrib2 = get_user_model().objects.get(email='contry@example.com')
-        
+
     def test_maintainer_can_create_category(self):
 
         '''Test maintainer or admin can create category'''
@@ -61,7 +61,7 @@ class CategoryTestCase(APITestCase):
     def test_contributor_fails_create_category(self):
 
         '''Test contributor cannot create a category'''
-        login = self.client.post(reverse('rest_login'), 
+        login = self.client.post(reverse('rest_login'),
             data={
                 'email': 'contry@example.com',
                 'password': 'passworddd1234',

@@ -10,7 +10,6 @@ class ModelTestCase(TestCase):
 
     '''Models test for `services` app'''
     def setUp(self):
-        file_pdf = SimpleUploadedFile('play.pdf', b'file_content', content_type='application/pdf')
         file = SimpleUploadedFile('joke.doc', b'I have no idea what I am writing:)', content_type='text/plain')
         self.contributor = User.objects.create_contributor(
             username='testy',
@@ -49,7 +48,7 @@ class ModelTestCase(TestCase):
             rep_name='lion',
             reason='I want to steal all there phones',
         )
-    
+
     def test_category_was_created(self):
         response = models.Category.objects.get(name='Technology')
         self.assertEqual(response.id, 1)
@@ -86,6 +85,6 @@ class ModelTestCase(TestCase):
         request = models.UserItemRequest.objects.all()
         self.assertEqual(request.count(), 1)
     
-    def test_user_can_request_item(self):
+    def test_user_can_request_reserved_item(self):
         request = models.ReservedItemRequest.objects.all()
         self.assertEqual(request.count(), 1)
