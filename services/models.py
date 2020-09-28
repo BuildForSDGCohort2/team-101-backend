@@ -7,7 +7,7 @@ from data_for_africa.settings import AUTH_USER_MODEL
 class Category(models.Model):
 
     '''Category where all Datasets must belong.'''
-    name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60, unique=True)
 
     class Meta:
         verbose_name_plural = 'categories'
@@ -19,7 +19,7 @@ class Category(models.Model):
 class Tag(models.Model):
 
     '''Possible tags to Dataset.'''
-    name = models.CharField(max_length=60)
+    name = models.CharField(max_length=60, unique=True)
 
     def __str__(self):
         return self.name

@@ -115,14 +115,9 @@ class ContributorTestCase(APITestCase):
             'state': 'Lagos',
             'country': 'NG'
         })
-        # make user a contributor.
+        # get contributors.
         self.user = get_user_model().objects.get(email='contry@example.com')
-        self.user.is_contributor = True
-        self.user.save()
-
         self.contrib2 = get_user_model().objects.get(email='contry@example.com')
-        self.contrib2.is_contributor = True
-        self.contrib2.save()
 
         self.response = self.client.post(reverse('rest_login'), data={
             'email': 'test@example.com',
@@ -138,6 +133,7 @@ class ContributorTestCase(APITestCase):
         '''Test contributor can blacklisted successfully by a maintainer.'''
         # make user a maintainer.
         maintainer = get_user_model().objects.get(email='test@example.com')
+        maintainer.is_contributor = False
         maintainer.is_maintainer = True
         maintainer.save()
 
@@ -172,6 +168,7 @@ class ContributorTestCase(APITestCase):
 
         '''Test maintainer can delete a blacklist entry.'''
         maintainer = get_user_model().objects.get(email='test@example.com')
+        maintainer.is_contributor = False
         maintainer.is_maintainer = True
         maintainer.save()
 
@@ -191,6 +188,7 @@ class ContributorTestCase(APITestCase):
 
         '''Test non-maintainer or admin type cannot delete a blacklist entry.'''
         maintainer = get_user_model().objects.get(email='test@example.com')
+        maintainer.is_contributor = False
         maintainer.is_maintainer = True
         maintainer.save()
 

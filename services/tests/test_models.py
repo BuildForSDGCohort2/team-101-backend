@@ -1,3 +1,4 @@
+'''Test cases for Services Models.'''
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 
