@@ -5,6 +5,21 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 
+def make_maintainer():
+
+    '''Function to switch to `contributor` type'''
+    pseudo_maintainer = get_user_model().objects.get(email='contry@example.com')
+    pseudo_maintainer.is_maintainer = True
+    pseudo_maintainer.is_contributor = False
+    pseudo_maintainer.save()
+
+def make_contributor():
+
+    '''Function to switch to `maintainer` type'''
+    pseudo_maintainer = get_user_model().objects.get(email='contry@example.com')
+    pseudo_maintainer.is_maintainer = False
+    pseudo_maintainer.is_contributor = True
+    pseudo_maintainer.save()
 
 class CategoryTestCase(APITestCase):
 
@@ -36,7 +51,7 @@ class CategoryTestCase(APITestCase):
             'state': 'Lagos',
             'country': 'NG'
         })
-        # make user a contributor.
+
         self.user = get_user_model().objects.get(email='contry@example.com')
         self.contrib2 = get_user_model().objects.get(email='contry@example.com')
 
@@ -65,22 +80,6 @@ class CategoryTestCase(APITestCase):
             })
         token = login.data['access_token']
         self.client.credentials(HTTP_AUTHORIZATION='Bearer '+ token)
-
-    def make_maintainer(self):
-
-        '''Method to switch to `contributor` type'''
-        pseudo_maintainer = get_user_model().objects.get(email='contry@example.com')
-        pseudo_maintainer.is_maintainer = True
-        pseudo_maintainer.is_contributor = False
-        pseudo_maintainer.save()
-
-    def make_contributor(self):
-
-        '''Method to switch to `maintainer` type'''
-        pseudo_maintainer = get_user_model().objects.get(email='contry@example.com')
-        pseudo_maintainer.is_maintainer = False
-        pseudo_maintainer.is_contributor = True
-        pseudo_maintainer.save()
 
     def test_maintainer_can_create_category(self):
 
@@ -127,10 +126,10 @@ class CategoryTestCase(APITestCase):
 
         '''Test contributor cannot delete a category'''
         self.contributor_login()
-        self.make_maintainer()
+        make_maintainer()
 
         category = self.client.post('/api/services/category/', data={'name': 'Technology'})
-        self.make_contributor()
+        make_contributor()
         response = self.client.delete('/api/services/category/' + str(category.data['id']) + '/')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -138,7 +137,7 @@ class CategoryTestCase(APITestCase):
 
         '''Test anonymous user cannot delete a category'''
         self.contributor_login()
-        self.make_maintainer()
+        make_maintainer()
 
         category = self.client.post('/api/services/category/', data={'name': 'Technology'})
 
@@ -160,10 +159,10 @@ class CategoryTestCase(APITestCase):
 
         '''Test contributor cannot update/edit a category'''
         self.contributor_login()
-        self.make_maintainer()
+        make_maintainer()
 
         category = self.client.post('/api/services/category/', data={'name': 'Technology'})
-        self.make_contributor()
+        make_contributor()
 
         url = '/api/services/category/' + str(category.data['id']) + '/'
         response = self.client.put(url, data={'name': 'not gonna work'})
@@ -173,7 +172,7 @@ class CategoryTestCase(APITestCase):
 
         '''Test anonymous user cannot update/edit a category'''
         self.contributor_login()
-        self.make_maintainer()
+        make_maintainer()
 
         category = self.client.post('/api/services/category/', data={'name': 'Technology'})
         url = '/api/services/category/' + str(category.data['id']) + '/'
