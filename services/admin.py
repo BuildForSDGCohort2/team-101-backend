@@ -8,7 +8,3 @@ admin.site.register((
     models.UserItemRequest,
     models.Tag,
 ))
-# admin.site.register(models.Item)
-# admin.site.register(models.ReservedItemRequest)
-# admin.site.register(models.UserItemRequest)
-# admin.site.register(models.Tag)
