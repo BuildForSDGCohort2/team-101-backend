@@ -1,13 +1,14 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
+from django_countries.serializers import CountryFieldMixin
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 
 from .models import BlacklistContributor
 
 
-class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
+class CustomRegisterSerializer(CountryFieldMixin, RegisterSerializer, serializers.ModelSerializer):
 
     '''Custom serializer to handle registration'''
     password1 = serializers.CharField(write_only=True)
@@ -35,7 +36,7 @@ class CustomRegisterSerializer(RegisterSerializer, serializers.ModelSerializer):
         return user
 
 
-class CustomUserDetailsSerializer(UserDetailsSerializer):
+class CustomUserDetailsSerializer(CountryFieldMixin, UserDetailsSerializer):
 
     '''Custom `user` detail serializer'''
     class Meta:
