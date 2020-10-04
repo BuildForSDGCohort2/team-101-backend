@@ -1,9 +1,11 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.parsers import MultiPartParser
+from rest_framework.response import Response
 
 import services.serializers as serializers
 import services.models as model
 import utils.permissions as permission
+
 
 class CategoryViewset(viewsets.ModelViewSet):
 
@@ -31,18 +33,17 @@ class TagViewset(viewsets.ModelViewSet):
 
     '''
     list:
-        Get only files belonging to particular `user`.
-        Or get all files in database as an admin user type.
+        Get all tags
     create:
-        Upload a file.
+        Add a tag.
     read:
-        Retrieve a file.
+        Retrieve a tag.
     update:
-        Update an existing file.
+        Update an existing tag.
     partial_update:
-        Make patch update to an existing file.
+        Make patch update to an existing tag.
     delete:
-        Delete a file.
+        Delete a tag.
     '''
     queryset = model.Tag.objects.all()
     serializer_class = serializers.TagSerializer
@@ -53,7 +54,8 @@ class ItemViewset(viewsets.ModelViewSet):
 
     '''
     list:
-        Get all datasets flagged `is_active`.
+        Get all datasets flagged `is_active` for vistors(anonymous user).
+        Get all datasets whether `is_active` or not for authenticated user type.
     create:
         Upload a dataset as a `contributor`, `maintainer` or `admin`.
         Multiple tags can be added/removed. dataset should only belong to one category.
@@ -64,16 +66,24 @@ class ItemViewset(viewsets.ModelViewSet):
     partial_update:
         Make patch update to an existing dataset as a `contributor`, `maintainer` or `admin`.
     delete:
-        Delete a dataset as `maintainer` or `admin`.
+        Delete a dataset as `owner` or `admin`.
     '''
-    queryset = model.Item.objects.filter(is_active=True)
     serializer_class = serializers.ItemSerializer
     parser_classes = [MultiPartParser]
-    permission_classes = [permission.IsMaintainerOrReadOnly, permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filterset_fields = ['name', 'created_at']
+    search_fields = ['$name', '$created_at']
+    ordering_fields = ['name','created_at']
 
-    def get_parsers(self):
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return model.Item.objects.all()
+        return model.Item.objects.filter(is_active=True)
 
-        '''To enable file uploads via Swagger API endpoint'''
-        if getattr(self, 'swagger_fake_view', False):
-            return [MultiPartParser]
-        return super().get_parsers()
+    def destroy(self, request):
+        dataset = self.get_object()
+        if dataset.added_by == self.request.user:
+            self.perform_destroy(dataset)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(data={'You are not authorized to perform this action'},
+            status=status.HTTP_401_UNAUTHORIZED)

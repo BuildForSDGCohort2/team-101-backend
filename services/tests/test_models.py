@@ -10,7 +10,8 @@ class ModelTestCase(TestCase):
 
     '''Models test for `services` app'''
     def setUp(self):
-        file = SimpleUploadedFile('joke.doc', b'I have no idea what I am writing:)', content_type='text/plain')
+        file = SimpleUploadedFile('joke.doc', b'I have no idea what I am writing:)',
+         content_type='text/plain')
         self.contributor = User.objects.create_contributor(
             username='testy',
             email='contributor@gmail.com',
@@ -27,8 +28,6 @@ class ModelTestCase(TestCase):
         self.item1 = models.Item.objects.create(
             name='Mobile phone users in Abeokuta',
             category=self.category,
-            size=3.4,
-            file_type='pdf',
             description='An excel sheet containing all counts of mobile phones',
             resource = file,
             added_by=self.contributor
@@ -50,41 +49,57 @@ class ModelTestCase(TestCase):
         )
 
     def test_category_was_created(self):
+
+        '''Test category creation'''
         response = models.Category.objects.get(name='Technology')
         self.assertEqual(response.id, 1)
-    
+
     def test_category_can_be_updated(self):
+
+        '''Test category update'''
         response = models.Category.objects.get(id=1)
         response.name = 'Oil and Gas'
         response.save()
         self.assertEqual(response.name, 'Oil and Gas')
-    
+
     def test_category_can_be_deleted(self):
+
+        '''Test category deletion'''
         category = models.Category.objects.get(id=1)
         category.delete()
         all_categories = models.Category.objects.all()
         self.assertEqual(all_categories.count(), 0)
-    
+
     def test_item_was_created(self):
+
+        '''Test item creation'''
         response = models.Item.objects.get(category=self.category)
-        self.assertEqual(response.file_type, 'pdf')
-    
+        self.assertEqual(response.name, 'Mobile phone users in Abeokuta')
+
     def test_item_can_be_updated(self):
+
+        '''Test item update'''
         response = models.Item.objects.get(name='Mobile phone users in Abeokuta')
         response.name = 'Telephone'
         response.save()
         self.assertEqual(response.name, 'Telephone')
-    
+
     def test_item_can_be_deleted(self):
+
+        '''Test item deletion'''
         item = models.Item.objects.get(name='Mobile phone users in Abeokuta')
         item.delete()
         all_items = models.Item.objects.all()
         self.assertEqual(all_items.count(), 0)
-    
+
     def test_user_can_request_item(self):
+
+        '''Test userRequestItem creation'''
         request = models.UserItemRequest.objects.all()
         self.assertEqual(request.count(), 1)
-    
+
     def test_user_can_request_reserved_item(self):
+
+        '''Test ReserveItemRequest creation'''
         request = models.ReservedItemRequest.objects.all()
         self.assertEqual(request.count(), 1)
