@@ -46,7 +46,7 @@ kombu==5.0.2
 lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 oauthlib==3.1.0
-pep8==1.7.1
+psycopg2==2.8.6
 py==1.9.0
 pyflakes==2.1.1
 Pygments==2.6.1
