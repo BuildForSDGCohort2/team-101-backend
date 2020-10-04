@@ -25,7 +25,6 @@ AUTH_USER_MODEL = 'accounts.User'
 SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
 DEBUG = int(os.environ.get("DEBUG", default=0))
-DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost", 
@@ -252,7 +251,6 @@ REST_FRAMEWORK={
 
     'DEFAULT_AUTHENTICATION_CLASS':[
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
     ],
 
     'DEFAULT_FILTER_BACKENDS': [

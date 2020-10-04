@@ -1,3 +1,5 @@
+from hurry.filesize import size, verbose
+
 from rest_framework import serializers
 
 import services.models as model
@@ -22,9 +24,19 @@ class TagSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
 
     '''Dataset(item) serializer'''
+    file_size = serializers.SerializerMethodField()
+    file_type = serializers.SerializerMethodField()
+
     class Meta:
         model = model.Item
         fields = '__all__'
+        read_only_fields = ['slug']
+
+    def get_file_size(self, obj):
+        return size(obj.resource.size, system=verbose)
+
+    def get_file_type(self, obj):
+        return obj.resource.name.split('.')[1]
 
 
 class UserItemRequestSerializer(serializers.ModelSerializer):

@@ -45,6 +45,7 @@ future==0.18.2
 gevent==20.9.0
 greenlet==0.4.17
 gunicorn==19.9.0
+hurry.filesize==0.9
 idna==2.10
 inflection==0.5.1
 iniconfig==1.0.1
