@@ -25,12 +25,13 @@ AUTH_USER_MODEL = 'accounts.User'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", default="foo")
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.environ.get('DEBUG', default=0))
 
 ALLOWED_HOSTS = [
-    "localhost", 
-    "127.0.0.1", 
-    "sdgteam101.herokuapp.com"
+    'localhost', 
+    '127.0.0.1', 
+    'sdgteam101.herokuapp.com',
+    'afrida.herokuapp.com',
 ]
 
 # Application definition
@@ -113,11 +114,11 @@ DATABASES = {
     }
 }
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = os.environ.get('DATABASE_URL')
 db_from_env = dj_database_url.config(
     default=DATABASE_URL, conn_max_age=500, ssl_require=True
 )
-DATABASES["default"].update(db_from_env)
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -157,9 +158,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 # STATIC_URL = '/static/'
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
@@ -227,13 +228,13 @@ JAZZMIN_SETTINGS = {
     },
     'default_icon_parents': 'fas fa-chevron-circle-right',
     'default_icon_children': 'fas fa-circle',
-    "custom_css": None,
-    "custom_js": None,
-    "show_ui_builder": False,
-    "changeform_format": "collapsible",
-    "changeform_format_overrides": {
-        "auth.user": "collapsible", 
-        "auth.group": "vertical_tabs",
+    'custom_css': None,
+    'custom_js': None,
+    'show_ui_builder': False,
+    'changeform_format': 'collapsible',
+    'changeform_format_overrides': {
+        'auth.user': 'collapsible', 
+        'auth.group': 'vertical_tabs',
     },
 }
 REST_AUTH_SERIALIZERS = {
@@ -317,12 +318,12 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = os.environ.get('ACCOUNT_EMAIL_SUBJECT_PREFIX', 'foo')
 REST_USE_JWT = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', default="noreply@afridata.netlify.app")
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_TLS= True
-# EMAIL_PORT = 587
-# EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS= True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
