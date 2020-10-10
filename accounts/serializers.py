@@ -41,12 +41,13 @@ class CustomUserDetailsSerializer(CountryFieldMixin, UserDetailsSerializer):
     '''Custom `user` detail serializer'''
     class Meta:
         model = get_user_model()
-        fields = [
-            'username', 'email', 'first_name',
-            'last_name', 'town_city', 'state',
-            'country', 'is_maintainer'
+        exclude = [
+            'created_at',
+            'updated_at',
+            'groups', 'user_permissions',
+            'password'
         ]
-        read_only_fields = ('email',)
+        read_only_fields = ['email', 'id']
 
 
 class BlacklistSerializer(serializers.ModelSerializer):
